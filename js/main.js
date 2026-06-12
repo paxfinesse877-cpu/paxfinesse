@@ -315,52 +315,45 @@ function initOrderForm() {
         const carBrandField = form.querySelector('#carBrand');
         const carModelField = form.querySelector('#carModel');
         const serviceType = form.querySelector('input[name="serviceType"]:checked');
-
-        const hiddenReplyTo = form.querySelector('#hidden_replyto');
-        const hiddenSubject = form.querySelector('input[name="_subject"]');
-
-        if (hiddenReplyTo && emailField) {
-            hiddenReplyTo.value = emailField.value;
-        }
-        if (hiddenSubject && firstNameField) {
-            const name = (firstNameField.value + ' ' + (lastNameField?.value || '')).trim();
-            const car = [carBrandField?.value, carModelField?.value].filter(Boolean).join(' ');
-            const svc = serviceType ? { import: 'Import', full: 'Import+Restaurare', consult: 'Consultanta' }[serviceType.value] || '' : '';
-            hiddenSubject.value = `Cerere noua: ${name}${car ? ' — ' + car : ''}${svc ? ' [' + svc + ']' : ''}`;
-        }
+        const name = (firstNameField.value + ' ' + (lastNameField?.value || '')).trim();
+        const car = [carBrandField?.value, carModelField?.value].filter(Boolean).join(' ');
+        const svc = serviceType ? { import: 'Import', full: 'Import + Restaurare', consult: 'Consultanta' }[serviceType.value] || '' : '';
+        const subject = `Cerere noua: ${name}${car ? ' - ' + car : ''}${svc ? ' [' + svc + ']' : ''}`;
+        const bodyLines = [
+            'Salut,',
+            '',
+            'Am completat formularul de pe site si vreau sa discutam despre proiectul meu.',
+            '',
+            `Nume: ${name}`,
+            `Email: ${emailField?.value || ''}`,
+            `Telefon: ${form.querySelector('#phone')?.value || ''}`,
+            `Oras: ${form.querySelector('#city')?.value || ''}`,
+            `Serviciu: ${svc || ''}`,
+            `Masina: ${car || ''}`,
+            `Buget: ${form.querySelector('#budget')?.value || ''}`,
+            '',
+            'Detalii proiect:',
+            form.querySelector('#projectDetails')?.value || '',
+            '',
+            'Multumesc,'
+        ];
+        const mailto = `mailto:autofinesse.ro@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join('\n'))}`;
 
         const submitBtn = form.querySelector('[type="submit"]');
         const originalText = submitBtn.innerHTML;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Se trimite...';
+        submitBtn.innerHTML = '<i class="fas fa-envelope"></i> Deschidem emailul...';
         submitBtn.disabled = true;
 
-        try {
-            const data = new FormData(form);
-            const res = await fetch('https://formspree.io/f/xdavwrnz', {
-                method: 'POST',
-                body: data,
-                headers: { 'Accept': 'application/json' }
-            });
+        const stepsBar = document.querySelector('.steps-bar');
+        if (stepsBar) stepsBar.style.display = 'none';
+        form.style.display = 'none';
+        const success = document.getElementById('successState');
+        if (success) success.style.display = 'block';
+        globalThis.scrollTo({ top: form.offsetTop - 100, behavior: 'smooth' });
 
-            if (res.ok) {
-                const stepsBar = document.querySelector('.steps-bar');
-                if (stepsBar) stepsBar.style.display = 'none';
-                form.style.display = 'none';
-                const success = document.getElementById('successState');
-                if (success) success.style.display = 'block';
-                globalThis.scrollTo({ top: form.offsetTop - 100, behavior: 'smooth' });
-            } else {
-                const json = await res.json().catch(() => ({}));
-                const msg = json?.errors?.map(err => err.message).join(', ') || 'Eroare necunoscuta.';
-                alert('Eroare la trimitere: ' + msg + '\nTe rugam sa ne contactezi direct la autofinesse.ro@gmail.com');
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-            }
-        } catch (err) {
-            alert('Eroare de retea. Te rugam sa ne contactezi direct la autofinesse.ro@gmail.com sau +40 722 633 676');
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-        }
+        globalThis.location.href = mailto;
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
     });
 
     const params = new URLSearchParams(window.location.search);
