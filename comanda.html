@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brief de Proiect — Paxfinesse SUA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@1,400;1,500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar scrolled" id="navbar">
+    <div class="nav-inner">
+        <a href="index.html" class="brand">
+            <img src="assets/paxfinesse-logo.png" alt="Paxfinesse SUA" class="brand-logo">
+            <span class="brand-text">
+                <span class="b-pax">PAX</span><span class="b-fin">FINESSE</span>
+                <span class="b-sua">SUA</span>
+            </span>
+        </a>
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="index.html">Acasă</a></li>
+            <li><a href="index.html#servicii">Servicii</a></li>
+            <li><a href="stoc.html">Realizări</a></li>
+            <li><a href="comanda.html" class="active">Comandă</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+        <div class="nav-cta">
+            <a href="tel:+40722633676" class="nav-phone">
+                <i class="fas fa-phone"></i>
+                <span>+40 722 633 676</span>
+            </a>
+            <button class="hamburger" id="burger" aria-label="Meniu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+    <div class="container">
+        <div class="page-hero-inner">
+            <div class="breadcrumb">
+                <a href="index.html">Acasă</a> / <span>Brief de Proiect</span>
+            </div>
+            <h1>Brief de <span class="text-red">Proiect</span></h1>
+            <p>Spune-ne ce vrei — fie că vrei doar import, fie că vrei și restaurarea completă. În 24 de ore primești o cotație clară, transparentă și personalizată.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ORDER -->
+<section class="order-section">
+    <div class="container">
+        <div class="order-layout">
+
+            <!-- LEFT: Form -->
+            <div class="order-card">
+
+                <!-- Steps bar -->
+                <div class="steps-bar">
+                    <div class="step-item active" data-step="1">
+                        <div class="step-num">1</div>
+                        <div class="step-label">Date Personale</div>
+                    </div>
+                    <div class="step-line"></div>
+                    <div class="step-item" data-step="2">
+                        <div class="step-num">2</div>
+                        <div class="step-label">Detalii Mașină</div>
+                    </div>
+                    <div class="step-line"></div>
+                    <div class="step-item" data-step="3">
+                        <div class="step-num">3</div>
+                        <div class="step-label">Confirmare</div>
+                    </div>
+                </div>
+
+                <form id="orderForm" novalidate>
+
+                    <!-- STEP 1 -->
+                    <div class="form-step active" data-step="1">
+                        <h3 class="form-step-title">Spune-ne despre tine</h3>
+                        <p class="form-step-sub">Vom folosi aceste date pentru a te contacta cu oferta.</p>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Prenume <span class="text-red">*</span></label>
+                                <input type="text" class="text-input" name="firstName" id="firstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Nume <span class="text-red">*</span></label>
+                                <input type="text" class="text-input" name="lastName" id="lastName" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Email <span class="text-red">*</span></label>
+                                <input type="email" class="text-input" name="email" id="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Telefon <span class="text-red">*</span></label>
+                                <input type="tel" class="text-input" name="phone" id="phone" required placeholder="+40 7XX XXX XXX">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Oraș <span class="text-red">*</span></label>
+                            <input type="text" class="text-input" name="city" id="city" required>
+                        </div>
+
+                        <div class="form-actions">
+                            <span></span>
+                            <button type="button" class="btn btn-primary" data-next>
+                                Continuă <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 2 -->
+                    <div class="form-step" data-step="2">
+                        <h3 class="form-step-title">Detalii despre proiectul tău</h3>
+                        <p class="form-step-sub">Cu cât mai multe detalii, cu atât mai bună oferta noastră.</p>
+
+                        <div class="form-group">
+                            <label>Ce serviciu vrei? <span class="text-red">*</span></label>
+                            <div class="service-choice">
+                                <label class="choice-card">
+                                    <input type="radio" name="serviceType" value="import" required>
+                                    <span class="choice-content">
+                                        <i class="fas fa-flag-usa"></i>
+                                        <strong>Doar Import</strong>
+                                        <small>O găsim, o aducem, o înmatriculăm</small>
+                                    </span>
+                                </label>
+                                <label class="choice-card">
+                                    <input type="radio" name="serviceType" value="full" required>
+                                    <span class="choice-content">
+                                        <i class="fas fa-tools"></i>
+                                        <strong>Import + Restaurare</strong>
+                                        <small>Pachet complet în atelierul nostru</small>
+                                    </span>
+                                </label>
+                                <label class="choice-card">
+                                    <input type="radio" name="serviceType" value="consult" required>
+                                    <span class="choice-content">
+                                        <i class="fas fa-comments"></i>
+                                        <strong>Consultanță</strong>
+                                        <small>Nu sunt încă sigur, vreau să discutăm</small>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Marca <span class="text-red">*</span></label>
+                                <input type="text" class="text-input" name="carBrand" id="carBrand" required placeholder="Ex: Ford, Chevy, Dodge...">
+                            </div>
+                            <div class="form-group">
+                                <label>Model <span class="text-red">*</span></label>
+                                <input type="text" class="text-input" name="carModel" id="carModel" required placeholder="Ex: Mustang, Camaro, Charger">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>An (sau interval)</label>
+                                <input type="text" class="text-input" name="carYear" id="carYear" placeholder="Ex: 2018-2022 sau 1969">
+                            </div>
+                            <div class="form-group">
+                                <label>Buget total (€) <span class="text-red">*</span></label>
+                                <input type="text" class="text-input" name="budget" id="budget" required placeholder="Ex: 50000">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Stare finală dorită</label>
+                            <select class="select-input" name="desiredCondition" id="desiredCondition">
+                                <option value="">Alege starea dorită...</option>
+                                <option value="daily">Daily driver — fiabil, frumos, gata de drum</option>
+                                <option value="showroom">Showroom — perfect, ca nouă</option>
+                                <option value="resto-mod">Resto-Mod — vintage cu interior modern</option>
+                                <option value="track">Track-ready — modificări de performanță</option>
+                                <option value="concours">Concours — restaurare la nivel de muzeu</option>
+                                <option value="original">Original — doar păstrat și îmbunătățit</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Culoare preferată</label>
+                                <input type="text" class="text-input" name="carColor" id="carColor" placeholder="Ex: Negru, Roșu Granat">
+                            </div>
+                            <div class="form-group">
+                                <label>VIN (dacă ai deja o mașină identificată)</label>
+                                <input type="text" class="text-input" name="vinNumber" id="vinNumber" placeholder="17 caractere">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Note suplimentare / Modificări dorite</label>
+                            <textarea class="text-input" name="extras" id="extras" rows="4" placeholder="Ex: jante 20'', eșapament aftermarket, scaune din piele, panoramic, lift kit..."></textarea>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-outline" data-prev>
+                                <i class="fas fa-arrow-left"></i> Înapoi
+                            </button>
+                            <button type="button" class="btn btn-primary" data-next>
+                                Continuă <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 3 -->
+                    <div class="form-step" data-step="3">
+                        <h3 class="form-step-title">Verifică și trimite</h3>
+                        <p class="form-step-sub">Asigură-te că toate datele sunt corecte înainte de a trimite.</p>
+
+                        <div class="review-block" id="reviewBlock"></div>
+
+                        <div class="checkbox-row" style="margin-top:24px">
+                            <input type="checkbox" id="agreeTerms" required>
+                            <label for="agreeTerms">
+                                Sunt de acord cu <a href="#" style="color:var(--red-bright)">termenii și condițiile</a> serviciului.
+                            </label>
+                        </div>
+
+                        <div class="checkbox-row">
+                            <input type="checkbox" id="agreeGdpr">
+                            <label for="agreeGdpr">
+                                Doresc să primesc oferte periodice prin email (opțional).
+                            </label>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-outline" data-prev>
+                                <i class="fas fa-arrow-left"></i> Înapoi
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i> Trimite Cererea
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+
+                <!-- Success state -->
+                <div class="success-state" id="successState" style="display:none">
+                    <div class="success-ico">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <h2>Briful tău a fost trimis!</h2>
+                    <p>Mulțumim! Un consultant Paxfinesse SUA te va contacta în maxim 24 de ore cu o cotație completă și opțiuni de proiect.</p>
+                    <a href="stoc.html" class="btn btn-primary">
+                        <i class="fas fa-images"></i> Explorează Realizările
+                    </a>
+                </div>
+
+            </div>
+
+            <!-- RIGHT: Aside -->
+            <aside class="order-aside">
+
+                <div class="aside-card gold">
+                    <h5><i class="fas fa-medal"></i> De ce Paxfinesse?</h5>
+                    <ul class="aside-list">
+                        <li><i class="fas fa-check"></i> Cotație completă în 24 ore</li>
+                        <li><i class="fas fa-check"></i> Preț transparent, fără surprize</li>
+                        <li><i class="fas fa-check"></i> Update săptămânal cu poze și video</li>
+                        <li><i class="fas fa-check"></i> Atelier propriu — control total</li>
+                        <li><i class="fas fa-check"></i> Garanție pe lucrările efectuate</li>
+                    </ul>
+                </div>
+
+                <div class="aside-card">
+                    <h5><i class="fas fa-shipping-fast"></i> Timp estimat</h5>
+                    <p>De la confirmare la livrarea finală:</p>
+                    <div class="aside-stat">
+                        <span class="big">45-90</span>
+                        <span class="small">zile (doar import)</span>
+                    </div>
+                    <div class="aside-stat" style="border-top:none;padding-top:6px">
+                        <span class="big">3-9</span>
+                        <span class="small">luni (import + restaurare)</span>
+                    </div>
+                </div>
+
+                <div class="aside-card">
+                    <h5><i class="fas fa-headset"></i> Contact direct</h5>
+                    <p>Preferi să discuți direct cu un consultant?</p>
+                    <a href="tel:+40722633676" class="btn btn-primary btn-block" style="margin-top:14px">
+                        <i class="fas fa-phone"></i> Sună Acum
+                    </a>
+                    <a href="https://wa.me/40722633676" class="btn btn-outline btn-block" style="margin-top:10px">
+                        <i class="fab fa-whatsapp"></i> WhatsApp
+                    </a>
+                </div>
+
+            </aside>
+
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer" id="contact">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-about">
+                <a href="index.html" class="brand brand-footer">
+                    <img src="assets/paxfinesse-logo.png" alt="Paxfinesse SUA" class="brand-logo">
+                    <span class="brand-text">
+                        <span class="b-pax">PAX</span><span class="b-fin">FINESSE</span>
+                        <span class="b-sua">SUA</span>
+                    </span>
+                </a>
+                <p>Aducem la comandă și restaurăm în atelierul nostru autoturisme din SUA.</p>
+                <div class="socials">
+                    <a href="https://www.instagram.com/paxfinessepax/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.tiktok.com/@paxfinesse?_t=ZN-8yZHqIfmm4E&_r=1&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQPOTM2NjE5NzQzMzkyNDU5AAGn2TuDAbLvphgei1O01tbaapVm8dabhwW_PqKula9Um7e5-4xDob9JzGexZbg_aem_R9yHzOPv0Os4jZHswV5WrA" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                    <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div>
+                <h5>Navigare</h5>
+                <div class="footer-links">
+                    <a href="index.html">Acasă</a>
+                    <a href="index.html#servicii">Servicii</a>
+                    <a href="stoc.html">Realizări</a>
+                    <a href="comanda.html">Comandă</a>
+                </div>
+            </div>
+            <div>
+                <h5>Servicii</h5>
+                <div class="footer-links">
+                    <a href="index.html#servicii">Import la Comandă</a>
+                    <a href="index.html#servicii">Restaurare Atelier</a>
+                    <a href="index.html#detalii-servicii">Transport Maritim</a>
+                </div>
+            </div>
+            <div>
+                <h5>Contact</h5>
+                <ul class="footer-contact">
+                    <li><i class="fas fa-phone"></i> +40 722 633 676</li>
+                    <li><i class="fas fa-envelope"></i> autofinesse.ro@gmail.com</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Constanța, România</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Paxfinesse SUA. Toate drepturile rezervate.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
