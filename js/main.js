@@ -308,6 +308,27 @@ function initOrderForm() {
             return;
         }
 
+        // Populam reply-to si subject dinamic cu datele clientului
+        const emailField = form.querySelector('#email');
+        const firstNameField = form.querySelector('#firstName');
+        const lastNameField = form.querySelector('#lastName');
+        const carBrandField = form.querySelector('#carBrand');
+        const carModelField = form.querySelector('#carModel');
+        const serviceType = form.querySelector('input[name="serviceType"]:checked');
+
+        const hiddenReplyTo = form.querySelector('#hidden_replyto');
+        const hiddenSubject = form.querySelector('input[name="_subject"]');
+
+        if (hiddenReplyTo && emailField) {
+            hiddenReplyTo.value = emailField.value;
+        }
+        if (hiddenSubject && firstNameField) {
+            const name = (firstNameField.value + ' ' + (lastNameField?.value || '')).trim();
+            const car = [carBrandField?.value, carModelField?.value].filter(Boolean).join(' ');
+            const svc = serviceType ? { import: 'Import', full: 'Import+Restaurare', consult: 'Consultanta' }[serviceType.value] || '' : '';
+            hiddenSubject.value = `Cerere noua: ${name}${car ? ' — ' + car : ''}${svc ? ' [' + svc + ']' : ''}`;
+        }
+
         const submitBtn = form.querySelector('[type="submit"]');
         const originalText = submitBtn.innerHTML;
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Se trimite...';
