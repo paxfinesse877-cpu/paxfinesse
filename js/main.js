@@ -185,6 +185,28 @@ function renderPortfolio() {
     });
 }
 
+// ==================== EmailJS Config ====================
+// IMPORTANT: Replace with your EmailJS credentials from https://emailjs.com
+// 1. Sign up at emailjs.com (free tier)
+// 2. Create email service (Gmail recommended)
+// 3. Create email template with HTML
+// 4. Copy your Service ID, Template ID, and Public Key below
+
+const EMAILJS_CONFIG = {
+    SERVICE_ID: 'YOUR_SERVICE_ID_HERE',    // e.g., 'service_abc123xyz'
+    TEMPLATE_ID: 'YOUR_TEMPLATE_ID_HERE',  // e.g., 'template_abc123xyz'
+    PUBLIC_KEY: 'YOUR_PUBLIC_KEY_HERE'     // e.g., 'abc123xyz_public'
+};
+
+// Initialize EmailJS
+try {
+    if (EMAILJS_CONFIG.PUBLIC_KEY !== 'YOUR_PUBLIC_KEY_HERE') {
+        emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
+    }
+} catch (e) {
+    console.log('EmailJS not ready yet');
+}
+
 function initOrderForm() {
     const form = document.getElementById('orderForm');
     if (!form) return;
@@ -308,52 +330,76 @@ function initOrderForm() {
             return;
         }
 
-        // Populam reply-to si subject dinamic cu datele clientului
+        const submitBtn = form.querySelector('[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Se trimite...';
+        submitBtn.disabled = true;
+
+        // Collect form data
         const emailField = form.querySelector('#email');
         const firstNameField = form.querySelector('#firstName');
         const lastNameField = form.querySelector('#lastName');
         const carBrandField = form.querySelector('#carBrand');
         const carModelField = form.querySelector('#carModel');
+        const phoneField = form.querySelector('#phone');
+        const cityField = form.querySelector('#city');
+        const budgetField = form.querySelector('#budget');
+        const projectDetailsField = form.querySelector('#projectDetails');
         const serviceType = form.querySelector('input[name="serviceType"]:checked');
+
         const name = (firstNameField.value + ' ' + (lastNameField?.value || '')).trim();
         const car = [carBrandField?.value, carModelField?.value].filter(Boolean).join(' ');
         const svc = serviceType ? { import: 'Import', full: 'Import + Restaurare', consult: 'Consultanta' }[serviceType.value] || '' : '';
         const subject = `Cerere noua: ${name}${car ? ' - ' + car : ''}${svc ? ' [' + svc + ']' : ''}`;
-        const bodyLines = [
-            'Salut,',
-            '',
-            'Am completat formularul de pe site si vreau sa discutam despre proiectul meu.',
-            '',
-            `Nume: ${name}`,
-            `Email: ${emailField?.value || ''}`,
-            `Telefon: ${form.querySelector('#phone')?.value || ''}`,
-            `Oras: ${form.querySelector('#city')?.value || ''}`,
-            `Serviciu: ${svc || ''}`,
-            `Masina: ${car || ''}`,
-            `Buget: ${form.querySelector('#budget')?.value || ''}`,
-            '',
-            'Detalii proiect:',
-            form.querySelector('#projectDetails')?.value || '',
-            '',
-            'Multumesc,'
-        ];
-        const mailto = `mailto:autofinesse.ro@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join('\n'))}`;
 
-        const submitBtn = form.querySelector('[type="submit"]');
-        const originalText = submitBtn.innerHTML;
-        submitBtn.innerHTML = '<i class="fas fa-envelope"></i> Deschidem emailul...';
-        submitBtn.disabled = true;
+        try {
+            // Check if EmailJS is properly configured
+            if (EMAILJS_CONFIG.PUBLIC_KEY === 'YOUR_PUBLIC_KEY_HERE') {
+                alert('EmailJS nu este configurat. Te rugam contacteaza administratorul.');
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                return;
+            }
 
-        const stepsBar = document.querySelector('.steps-bar');
-        if (stepsBar) stepsBar.style.display = 'none';
-        form.style.display = 'none';
-        const success = document.getElementById('successState');
-        if (success) success.style.display = 'block';
-        globalThis.scrollTo({ top: form.offsetTop - 100, behavior: 'smooth' });
+            // Prepare template parameters for EmailJS
+            const templateParams = {
+                to_email: 'autofinesse.ro@gmail.com',
+                from_name: name,
+                from_email: emailField?.value || '',
+                client_phone: phoneField?.value || '',
+                client_city: cityField?.value || '',
+                service_type: svc || '',
+                car_brand: carBrandField?.value || '',
+                car_model: carModelField?.value || '',
+                budget: budgetField?.value || '',
+                project_details: projectDetailsField?.value || '',
+                subject: subject
+            };
 
-        globalThis.location.href = mailto;
-        submitBtn.innerHTML = originalText;
-        submitBtn.disabled = false;
+            // Send email via EmailJS
+            const response = await emailjs.send(
+                EMAILJS_CONFIG.SERVICE_ID,
+                EMAILJS_CONFIG.TEMPLATE_ID,
+                templateParams
+            );
+
+            if (response.status === 200) {
+                // Success
+                const stepsBar = document.querySelector('.steps-bar');
+                if (stepsBar) stepsBar.style.display = 'none';
+                form.style.display = 'none';
+                const success = document.getElementById('successState');
+                if (success) success.style.display = 'block';
+                globalThis.scrollTo({ top: form.offsetTop - 100, behavior: 'smooth' });
+            } else {
+                throw new Error('Email send failed');
+            }
+        } catch (err) {
+            console.error('EmailJS Error:', err);
+            alert('Eroare la trimitere email. Te rugam sa ne contactezi direct la autofinesse.ro@gmail.com sau +40 722 633 676');
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        }
     });
 
     const params = new URLSearchParams(window.location.search);
