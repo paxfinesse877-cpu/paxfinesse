@@ -315,7 +315,7 @@ function initOrderForm() {
 
         try {
             const data = new FormData(form);
-            const res = await fetch('https://formspree.io/f/INLOCUIESTE_CU_ID_TU', {
+            const res = await fetch('https://formspree.io/f/xdavwrnz', {
                 method: 'POST',
                 body: data,
                 headers: { 'Accept': 'application/json' }
