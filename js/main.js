@@ -185,27 +185,7 @@ function renderPortfolio() {
     });
 }
 
-// ==================== EmailJS Config ====================
-// IMPORTANT: Replace with your EmailJS credentials from https://emailjs.com
-// 1. Sign up at emailjs.com (free tier)
-// 2. Create email service (Gmail recommended)
-// 3. Create email template with HTML
-// 4. Copy your Service ID, Template ID, and Public Key below
-
-const EMAILJS_CONFIG = {
-    SERVICE_ID: 'service_g9wasta',          // e.g., 'service_abc123xyz'
-    TEMPLATE_ID: 'YOUR_TEMPLATE_ID_HERE',  // e.g., 'template_abc123xyz'
-    PUBLIC_KEY: 'YOUR_PUBLIC_KEY_HERE'     // e.g., 'abc123xyz_public'
-};
-
-// Initialize EmailJS
-try {
-    if (EMAILJS_CONFIG.PUBLIC_KEY !== 'YOUR_PUBLIC_KEY_HERE') {
-        emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
-    }
-} catch (e) {
-    console.log('EmailJS not ready yet');
-}
+const WEB3FORMS_ACCESS_KEY = 'c2573c45-f830-4668-9b09-941cc5bf9778';
 
 function initOrderForm() {
     const form = document.getElementById('orderForm');
@@ -353,37 +333,31 @@ function initOrderForm() {
         const subject = `Cerere noua: ${name}${car ? ' - ' + car : ''}${svc ? ' [' + svc + ']' : ''}`;
 
         try {
-            // Check if EmailJS is properly configured
-            if (EMAILJS_CONFIG.PUBLIC_KEY === 'YOUR_PUBLIC_KEY_HERE') {
-                alert('EmailJS nu este configurat. Te rugam contacteaza administratorul.');
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-                return;
-            }
+            const payload = new FormData();
+            payload.append('access_key', WEB3FORMS_ACCESS_KEY);
+            payload.append('subject', subject);
+            payload.append('from_name', 'Website Paxfinesse');
+            payload.append('botcheck', '');
+            payload.append('firstName', firstNameField?.value || '');
+            payload.append('lastName', lastNameField?.value || '');
+            payload.append('email', emailField?.value || '');
+            payload.append('phone', phoneField?.value || '');
+            payload.append('city', cityField?.value || '');
+            payload.append('serviceType', svc || '');
+            payload.append('carBrand', carBrandField?.value || '');
+            payload.append('carModel', carModelField?.value || '');
+            payload.append('budget', budgetField?.value || '');
+            payload.append('projectDetails', projectDetailsField?.value || '');
 
-            // Prepare template parameters for EmailJS
-            const templateParams = {
-                to_email: 'autofinesse.ro@gmail.com',
-                from_name: name,
-                from_email: emailField?.value || '',
-                client_phone: phoneField?.value || '',
-                client_city: cityField?.value || '',
-                service_type: svc || '',
-                car_brand: carBrandField?.value || '',
-                car_model: carModelField?.value || '',
-                budget: budgetField?.value || '',
-                project_details: projectDetailsField?.value || '',
-                subject: subject
-            };
+            const response = await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                body: payload,
+                headers: { Accept: 'application/json' }
+            });
 
-            // Send email via EmailJS
-            const response = await emailjs.send(
-                EMAILJS_CONFIG.SERVICE_ID,
-                EMAILJS_CONFIG.TEMPLATE_ID,
-                templateParams
-            );
+            const result = await response.json().catch(() => ({}));
 
-            if (response.status === 200) {
+            if (response.ok && result.success) {
                 // Success
                 const stepsBar = document.querySelector('.steps-bar');
                 if (stepsBar) stepsBar.style.display = 'none';
@@ -392,11 +366,11 @@ function initOrderForm() {
                 if (success) success.style.display = 'block';
                 globalThis.scrollTo({ top: form.offsetTop - 100, behavior: 'smooth' });
             } else {
-                throw new Error('Email send failed');
+                throw new Error(result.message || 'Trimiterea a esuat.');
             }
         } catch (err) {
-            console.error('EmailJS Error:', err);
-            alert('Eroare la trimitere email. Te rugam sa ne contactezi direct la autofinesse.ro@gmail.com sau +40 722 633 676');
+            console.error('Web3Forms Error:', err);
+            alert('Eroare la trimitere. Te rugam sa ne contactezi direct la autofinesse.ro@gmail.com sau +40 722 633 676');
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
         }
