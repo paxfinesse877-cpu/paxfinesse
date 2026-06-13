@@ -15,7 +15,7 @@ Formularassim site-ului este acum gata sa trimita emailuri reale prin **EmailJS*
 - Apasă **Add Service**
 - Selectează **Gmail**
 - Apasă **Connect Account**
-- Autentifică-te cu cont Gmail (autofinesse.ro@gmail.com)
+- Autentifică-te cu cont Gmail (paxfinesse877@gmail.com)
 - Apasă **Create Service** → id-ul tău de serviciu va apărea (ex: `service_abc123xyz`)
 
 ### 3. Crează Email Template
@@ -125,7 +125,7 @@ const EMAILJS_CONFIG = {
 - Deschide site-ul
 - Completeaza formularul de pe /comanda.html
 - Apasă "Trimite Cererea"
-- EmailJS va trimite email cu HTML styled la autofinesse.ro@gmail.com
+- EmailJS va trimite email cu HTML styled la paxfinesse877@gmail.com
 
 ## Limite Free Tier
 - **300 emailuri/luna** (suficient pentru un site mic)
@@ -142,7 +142,7 @@ const EMAILJS_CONFIG = {
 ---
 
 **Detalii Contacte Paxfinesse:**
-- 📧 Email: autofinesse.ro@gmail.com
+- 📧 Email: paxfinesse877@gmail.com
 - 📱 Telefon: +40 722 633 676
 - 📍 Sediu: Constanța, România
 - 📲 Instagram: https://www.instagram.com/paxfinessepax/
