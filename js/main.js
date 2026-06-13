@@ -331,6 +331,17 @@ function initOrderForm() {
         const car = [carBrandField?.value, carModelField?.value].filter(Boolean).join(' ');
         const svc = serviceType ? { import: 'Import', full: 'Import + Restaurare', consult: 'Consultanta' }[serviceType.value] || '' : '';
         const subject = `Cerere noua: ${name}${car ? ' - ' + car : ''}${svc ? ' [' + svc + ']' : ''}`;
+        const message = [
+            `Client: ${name}`,
+            `Telefon: ${phoneField?.value || ''}`,
+            `Oras: ${cityField?.value || ''}`,
+            `Serviciu: ${svc || ''}`,
+            `Masina: ${car || ''}`,
+            `Buget: ${budgetField?.value || ''}`,
+            '',
+            'Detalii proiect:',
+            projectDetailsField?.value || '-'
+        ].join('\n');
 
         try {
             const payload = new FormData();
@@ -338,9 +349,12 @@ function initOrderForm() {
             payload.append('subject', subject);
             payload.append('from_name', 'Website Paxfinesse');
             payload.append('botcheck', '');
+            payload.append('name', name || 'Client Paxfinesse');
             payload.append('firstName', firstNameField?.value || '');
             payload.append('lastName', lastNameField?.value || '');
             payload.append('email', emailField?.value || '');
+            payload.append('replyto', emailField?.value || '');
+            payload.append('message', message);
             payload.append('phone', phoneField?.value || '');
             payload.append('city', cityField?.value || '');
             payload.append('serviceType', svc || '');
@@ -370,7 +384,8 @@ function initOrderForm() {
             }
         } catch (err) {
             console.error('Web3Forms Error:', err);
-            alert('Eroare la trimitere. Te rugam sa ne contactezi direct la autofinesse.ro@gmail.com sau +40 722 633 676');
+            const errorMessage = err?.message ? `\nDetaliu: ${err.message}` : '';
+            alert('Eroare la trimitere. Te rugam sa ne contactezi direct la autofinesse.ro@gmail.com sau +40 722 633 676' + errorMessage);
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
         }
