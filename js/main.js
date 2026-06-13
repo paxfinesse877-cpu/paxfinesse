@@ -185,8 +185,6 @@ function renderPortfolio() {
     });
 }
 
-const WEB3FORMS_ACCESS_KEY = 'c2573c45-f830-4668-9b09-941cc5bf9778';
-
 function initOrderForm() {
     const form = document.getElementById('orderForm');
     if (!form) return;
@@ -343,15 +341,11 @@ function initOrderForm() {
             projectDetailsField?.value || '-'
         ].join('\n');
 
-        const hiddenAccessKey = form.querySelector('#hidden_access_key');
         const hiddenSubject = form.querySelector('#hidden_subject');
-        const hiddenName = form.querySelector('#hidden_name');
         const hiddenReplyTo = form.querySelector('#hidden_replyto');
         const hiddenMessage = form.querySelector('#hidden_message');
 
-        if (hiddenAccessKey) hiddenAccessKey.value = WEB3FORMS_ACCESS_KEY;
         if (hiddenSubject) hiddenSubject.value = subject;
-        if (hiddenName) hiddenName.value = name || 'Client Paxfinesse';
         if (hiddenReplyTo) hiddenReplyTo.value = emailField?.value || '';
         if (hiddenMessage) hiddenMessage.value = message;
 
