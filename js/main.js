@@ -302,7 +302,7 @@ function initOrderForm() {
         });
     });
 
-    form.addEventListener('submit', async (e) => {
+    form.addEventListener('submit', (e) => {
         e.preventDefault();
         const tc = form.querySelector('#agreeTerms');
         if (!tc.checked) {
@@ -343,52 +343,22 @@ function initOrderForm() {
             projectDetailsField?.value || '-'
         ].join('\n');
 
-        try {
-            const payload = new FormData();
-            payload.append('access_key', WEB3FORMS_ACCESS_KEY);
-            payload.append('subject', subject);
-            payload.append('from_name', 'Website Paxfinesse');
-            payload.append('botcheck', '');
-            payload.append('name', name || 'Client Paxfinesse');
-            payload.append('firstName', firstNameField?.value || '');
-            payload.append('lastName', lastNameField?.value || '');
-            payload.append('email', emailField?.value || '');
-            payload.append('replyto', emailField?.value || '');
-            payload.append('message', message);
-            payload.append('phone', phoneField?.value || '');
-            payload.append('city', cityField?.value || '');
-            payload.append('serviceType', svc || '');
-            payload.append('carBrand', carBrandField?.value || '');
-            payload.append('carModel', carModelField?.value || '');
-            payload.append('budget', budgetField?.value || '');
-            payload.append('projectDetails', projectDetailsField?.value || '');
+        const hiddenAccessKey = form.querySelector('#hidden_access_key');
+        const hiddenSubject = form.querySelector('#hidden_subject');
+        const hiddenName = form.querySelector('#hidden_name');
+        const hiddenReplyTo = form.querySelector('#hidden_replyto');
+        const hiddenMessage = form.querySelector('#hidden_message');
 
-            const response = await fetch('https://api.web3forms.com/submit', {
-                method: 'POST',
-                body: payload,
-                headers: { Accept: 'application/json' }
-            });
+        if (hiddenAccessKey) hiddenAccessKey.value = WEB3FORMS_ACCESS_KEY;
+        if (hiddenSubject) hiddenSubject.value = subject;
+        if (hiddenName) hiddenName.value = name || 'Client Paxfinesse';
+        if (hiddenReplyTo) hiddenReplyTo.value = emailField?.value || '';
+        if (hiddenMessage) hiddenMessage.value = message;
 
-            const result = await response.json().catch(() => ({}));
-
-            if (response.ok && result.success) {
-                // Success
-                const stepsBar = document.querySelector('.steps-bar');
-                if (stepsBar) stepsBar.style.display = 'none';
-                form.style.display = 'none';
-                const success = document.getElementById('successState');
-                if (success) success.style.display = 'block';
-                globalThis.scrollTo({ top: form.offsetTop - 100, behavior: 'smooth' });
-            } else {
-                throw new Error(result.message || 'Trimiterea a esuat.');
-            }
-        } catch (err) {
-            console.error('Web3Forms Error:', err);
-            const errorMessage = err?.message ? `\nDetaliu: ${err.message}` : '';
-            alert('Eroare la trimitere. Te rugam sa ne contactezi direct la autofinesse.ro@gmail.com sau +40 722 633 676' + errorMessage);
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-        }
+        submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Redirectionam trimiterea...';
+        form.submit();
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
     });
 
     const params = new URLSearchParams(window.location.search);

@@ -80,7 +80,15 @@
                     </div>
                 </div>
 
-                <form id="orderForm" novalidate>
+                <form id="orderForm" action="https://api.web3forms.com/submit" method="POST" novalidate>
+                    <input type="hidden" name="access_key" id="hidden_access_key">
+                    <input type="hidden" name="subject" id="hidden_subject">
+                    <input type="hidden" name="from_name" value="Website Paxfinesse">
+                    <input type="hidden" name="name" id="hidden_name">
+                    <input type="hidden" name="replyto" id="hidden_replyto">
+                    <input type="hidden" name="message" id="hidden_message">
+                    <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none;">
+
                     <!-- STEP 1 -->
                     <div class="form-step active" data-step="1">
                         <h3 class="form-step-title">Spune-ne despre tine</h3>
