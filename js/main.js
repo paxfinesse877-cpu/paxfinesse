@@ -193,7 +193,7 @@ function renderPortfolio() {
 // 4. Copy your Service ID, Template ID, and Public Key below
 
 const EMAILJS_CONFIG = {
-    SERVICE_ID: 'YOUR_SERVICE_ID_HERE',    // e.g., 'service_abc123xyz'
+    SERVICE_ID: 'service_g9wasta',          // e.g., 'service_abc123xyz'
     TEMPLATE_ID: 'YOUR_TEMPLATE_ID_HERE',  // e.g., 'template_abc123xyz'
     PUBLIC_KEY: 'YOUR_PUBLIC_KEY_HERE'     // e.g., 'abc123xyz_public'
 };
